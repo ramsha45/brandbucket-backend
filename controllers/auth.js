@@ -92,14 +92,6 @@ exports.signup = async (req, res) => {
         // var user = await User.create(req.body);
         var userProfile = await addUser(req.body)
         console.log("userProfile", userProfile)
-        // var profile = {
-        //     userName: user.userName,
-        //     email: user.email,
-        //     userId: user._id,
-        // }
-        // var userProfile = null;
-        // if(user.role =='artist')userProfile = await addArtist(profile)
-        // if(user.role =='buyer')userProfile = await addBuyer(profile)
         
         //generate token and send response
         createAndSendToken(userProfile,res)

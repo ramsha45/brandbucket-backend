@@ -1,4 +1,18 @@
 const SubCategory = require("../models/subCategory");
+const multer = require("multer");
+const {v4: uuid} = require("uuid")
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/SubCategory/')
+  },
+  
+  filename: function (req, file, cb) {
+    const ext = file.mimetype.split("/")[1]
+    cb(null, `subcat-${uuid()}-${Date.now()}.${ext}`);
+  }
+})
+exports.SubCategoryUpload = multer({ storage: storage }).any();
 
 exports.getAllSubCategories = async(req,res) => {
   try {

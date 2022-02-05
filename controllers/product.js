@@ -3,7 +3,8 @@ const _ = require("lodash");
 const Product = require("../models/product");
 const fs = require("fs");
 const multer = require("multer");
-const {v4: uuid} = require("uuid")
+const {v4: uuid} = require("uuid");
+const APIFeatures = require("../utility/common");
 
 exports.productById = async(req, res) => {
   try {
@@ -25,10 +26,7 @@ exports.productById = async(req, res) => {
   }
 }
 
-// exports.read = (req, res) => {
-//   const product = req.product;
-//   return res.json(product);
-// };
+
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -44,8 +42,6 @@ exports.productImgUpload = multer({ storage: storage }).any();
 
 exports.addProduct = async(req, res) => {
   try {
-    // console.log("req.file",req.files)
-    // req.body.image = req.files[0].filename
     console.log("req.body",req.body)
     const product = await Product.create(req.body)
     res.status(201).json({
@@ -59,26 +55,24 @@ exports.addProduct = async(req, res) => {
     res.status(400).json({error :error.message})
 }};
 
-exports.list = (req, res) => {
-  let order = req.query.order ? req.query.order : "asc";
-  let skip = req.query.skip ? parseInt(req.query.skip) : 0;
-  let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
-  let limit = req.query.limit ? parseInt(req.query.limit) : 16;
+exports.list = async(req, res) => {
+  try {
+   var {limit = 2} = req.query
+   var query = new APIFeatures(Product, req.query).filter().sort().pagination();
+   var products = await query.get();
+   const total = await (Product.countDocuments())/limit
 
-  Product.find()
-    //.select('-photo')
-    //.populate('category')
-    .sort([[sortBy, order]])
-    .limit(limit)
-    .skip(skip)
-    .exec((err, products) => {
-      if (err) {
-        return res.status(400).json({
-          error: "Products not found",
-        });
-      }
-      res.json(products);
-    });
+   res.status(200).json({
+       status : "success",
+       pages : Math.ceil(total),
+       data : { 
+           products
+       }
+   })
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({error :error.message})
+  }
 };
 
 

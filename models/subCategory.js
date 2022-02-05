@@ -15,6 +15,9 @@ const subCategorySchema = new mongoose.Schema(
       required: true,
       ref: 'Category'
     },
+    image:{
+      type: String
+    },
     __v: { 
         type: Number, 
         select: false
@@ -35,16 +38,5 @@ subCategorySchema.virtual("category", {
   localField: "categoryId",
   justOne: true
 })
-
-// subCategorySchema.pre(/^find/, function(next){
-//   //to populate review with user info wo has reviewed
-//   this.populate({
-//       path: "categoryId",
-//   })
-//   next()
-// })
-
-// subCategorySchema.set('toObject', { virtuals: true });
-// subCategorySchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model("SubCategory", subCategorySchema);

@@ -6,12 +6,13 @@ const {
   addCategory,
   getCategoryById,
   getAllCategories,
-  updateCategory
+  updateCategory,
+  CategoryUpload
 } = require("../controllers/category");
 
 router.get("/category/:categoryId", getCategoryById);
 router.post("/", protect, restrictTo("admin"), addCategory);
 router.get("/", getAllCategories);
-router.patch("/category/:categoryId", protect, restrictTo("admin"), updateCategory);
+router.patch("/category/:categoryId", protect, restrictTo("admin") ,updateCategory);
 
 module.exports = router;

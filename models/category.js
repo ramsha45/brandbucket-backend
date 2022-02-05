@@ -9,6 +9,9 @@ const categorySchema = new mongoose.Schema(
         maxlength: 80,
         unique: true
       },
+      image:{
+        type: String
+      },
       __v: { 
           type: Number, 
           select: false

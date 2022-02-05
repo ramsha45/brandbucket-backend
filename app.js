@@ -13,7 +13,8 @@ const discountRoutes = require("./routes/discount");
 const categoryRoutes = require("./routes/category");
 const subCategoryRoutes = require("./routes/subCategory");
 const itemRoutes = require("./routes/item");
-const cartItemRoutes = requires("./routes/cartItem")
+const cartItemRoutes = require("./routes/cartItem")
+const orderItemRoutes = require("./routes/order")
 
 // app
 const app = express();
@@ -72,6 +73,7 @@ app.use("/api/categories", categoryRoutes)
 app.use("/api/subcategories", subCategoryRoutes)
 app.use("/api/items", itemRoutes)
 app.use("/api/carts", cartItemRoutes)
+app.use("/api/orders", orderItemRoutes)
 
 app.listen(8000, () => {
     console.log("server is running on port 8000")

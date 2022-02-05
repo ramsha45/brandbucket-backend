@@ -1,18 +1,4 @@
 const Category = require("../models/category");
-// const multer = require("multer");
-// const {v4: uuid} = require("uuid")
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'public/category/')
-//   },
-  
-//   filename: function (req, file, cb) {
-//     const ext = file.mimetype.split("/")[1]
-//     cb(null, `cat-${uuid()}-${Date.now()}.${ext}`);
-//   }
-// })
-// exports.CategoryUpload = multer({ storage: storage }).any();
 
 exports.getAllCategories = async(req,res) => {
   try {
@@ -68,7 +54,8 @@ exports.updateCategory =  async(req,res) => {
   try {
     console.log(req.body)
     var {categoryId} = req.params;
-    var category = await Category.findOneAndUpdate(categoryId,req.body,{
+    console.log(categoryId)
+    var category = await Category.findByIdAndUpdate(categoryId, req.body, {
       new : true
     });
 

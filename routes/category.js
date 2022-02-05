@@ -7,7 +7,6 @@ const {
   getCategoryById,
   getAllCategories,
   updateCategory,
-  CategoryUpload
 } = require("../controllers/category");
 
 router.get("/category/:categoryId", getCategoryById);

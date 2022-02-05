@@ -15,7 +15,8 @@ const itemSchema = new mongoose.Schema(
       },
       productId:{           
         type:ObjectId,
-          required:true
+        required:true,
+        ref: 'Product'
       },
       quantity: {
           type: Number,
@@ -28,8 +29,20 @@ const itemSchema = new mongoose.Schema(
           type: Number, 
           select: false
       },
+    },
+    { 
+      versionKey: false,
+      toJSON: {virtuals: true},
+      toObject: {virtuals:true},
     }
    // { timestamps: true }
 );
+
+itemSchema.virtual("product", {
+  ref:"Product",
+  foreignField: "_id",
+  localField: "productId",
+  justOne: true
+})
 
 module.exports = mongoose.model("Item", itemSchema);

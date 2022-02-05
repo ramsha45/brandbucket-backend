@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
       select:false,
     },
 
-    cofirmPassword: {
+    confirmPassword: {
       type: String,
       required: true,
       validate: [

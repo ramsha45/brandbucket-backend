@@ -54,7 +54,7 @@ exports.addItem = async(req, res) => {
 
 exports.getAllItem = async(req, res) => {
   try {
-    const items =  await Item.find()
+    const items =  await Item.find().populate("product")
     res.status(200).json({
       status:"success",
       data:{

@@ -7,20 +7,23 @@ const itemSchema = new mongoose.Schema(
         type:String,
         required: true,
         trim: true,
+        lowercase: true
       },
-      size:{
-        type:String,
-        trim: true,
-        null: true
-      },
+      sizes:[{
+        name:{
+          type:String,
+          required: true,
+          lowercase: true
+        },
+        qty:{
+          type:Number,
+          required:true
+        }
+      }],
       productId:{           
         type:ObjectId,
         required:true,
         ref: 'Product'
-      },
-      quantity: {
-          type: Number,
-          required: true    
       },
       images: {
         type:Array
@@ -45,11 +48,11 @@ const itemSchema = new mongoose.Schema(
 //   justOne: true
 // })
 
-itemSchema.pre(/^find/, function(next){   //if query is used called query middleware
-  this.populate({
-      path: "productId",
-  })
-  next()
-})
+// itemSchema.pre(/^find/, function(next){   //if query is used called query middleware
+//   this.populate({
+//       path: "productId",
+//   })
+//   next()
+// })
 
 module.exports = mongoose.model("Item", itemSchema);

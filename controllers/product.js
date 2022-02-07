@@ -59,7 +59,8 @@ exports.list = async(req, res) => {
   try {
    var {limit = 2} = req.query
    var query = new APIFeatures(Product, req.query).filter().sort().pagination();
-   var products = await query.get();
+  // var query = await Product.find(req.query)
+   var products = await query.get().populate("variation");
    const total = await (Product.countDocuments())/limit
 
    res.status(200).json({

@@ -7,8 +7,7 @@ const productSchema = new mongoose.Schema(
             type: String,
             trim: true,
             required: true,
-            maxlength: 80,
-            unique: true
+            maxlength: 8
         },
         
         price: {
@@ -18,12 +17,12 @@ const productSchema = new mongoose.Schema(
             maxlength: 32
         },
         gender:{
-            type:String
+            enum:['W', 'M', 'K']
         },
         SKU:{
             type: String
         },
-        subCategoryId:{           
+        categoryId:{           
             type:ObjectId
         },
         brandId: {
@@ -40,15 +39,25 @@ const productSchema = new mongoose.Schema(
             select: false
         },
        
+    },
+    {
+        toJSON: {virtuals: true},
+        toObject: {virtuals:true},
     }
-   // { timestamps: true }
 );
 
-// productSchema.pre(/^find/, function(next){   //if query is used called query middleware
-//     this.populate({
-//         path: "brandId",
-//     })
-//     next()
-// })
+productSchema.virtual("variation", {
+    ref:"Item",
+    foreignField: "productId",
+    localField: "_id",
+})
+
+productSchema.pre(/^find/, function(next){   //if query is used called query middleware
+  this.populate({
+      path: "brandId",
+      select: "name"
+  })
+  next()
+})
 
 module.exports = mongoose.model("Product", productSchema);

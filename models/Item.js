@@ -38,11 +38,18 @@ const itemSchema = new mongoose.Schema(
    // { timestamps: true }
 );
 
-itemSchema.virtual("product", {
-  ref:"Product",
-  foreignField: "_id",
-  localField: "productId",
-  justOne: true
+// itemSchema.virtual("product", {
+//   ref:"Product",
+//   foreignField: "_id",
+//   localField: "productId",
+//   justOne: true
+// })
+
+itemSchema.pre(/^find/, function(next){   //if query is used called query middleware
+  this.populate({
+      path: "productId",
+  })
+  next()
 })
 
 module.exports = mongoose.model("Item", itemSchema);

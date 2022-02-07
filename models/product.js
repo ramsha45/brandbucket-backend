@@ -28,7 +28,8 @@ const productSchema = new mongoose.Schema(
         },
         brandId: {
             type: ObjectId,
-            required: true    
+            required: true,
+            ref: 'Brand'    
         },
         discountId: {
             type:ObjectId,
@@ -42,5 +43,12 @@ const productSchema = new mongoose.Schema(
     }
    // { timestamps: true }
 );
+
+// productSchema.pre(/^find/, function(next){   //if query is used called query middleware
+//     this.populate({
+//         path: "brandId",
+//     })
+//     next()
+// })
 
 module.exports = mongoose.model("Product", productSchema);

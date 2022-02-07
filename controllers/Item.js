@@ -1,7 +1,8 @@
 const _ = require("lodash");
 const Item = require("../models/item");
 const multer = require("multer");
-const {v4: uuid} = require("uuid")
+const {v4: uuid} = require("uuid");
+const APIFeatures = require("../utility/common");
 
 exports.getItemById = async(req, res) => {
   try {
@@ -54,17 +55,22 @@ exports.addItem = async(req, res) => {
 
 exports.getAllItem = async(req, res) => {
   try {
-    const items =  await Item.find().populate("product")
+    var {limit = 2} = req.query
+    var query = new APIFeatures(Item, req.query).filter().sort().pagination();
+    var items = await query.get();
+    const total = await (Item.countDocuments())/limit
+ 
     res.status(200).json({
-      status:"success",
-      data:{
-        items
-      }
-    });
-  } catch (error) {
-    res.status(400).json({error :error.message})
-  }
-    
+        status : "success",
+        pages : Math.ceil(total),
+        data : { 
+            items
+        }
+    })
+   } catch (error) {
+     console.log(error)
+     res.status(400).json({error :error.message})
+   } 
 };
 
 

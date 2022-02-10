@@ -1,3 +1,4 @@
+const { lowerCase } = require("lodash");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
@@ -7,7 +8,6 @@ const productSchema = new mongoose.Schema(
             type: String,
             trim: true,
             required: true,
-            maxlength: 8
         },
         
         price: {
@@ -17,7 +17,9 @@ const productSchema = new mongoose.Schema(
             maxlength: 32
         },
         gender:{
-            enum:['W', 'M', 'K']
+            type :String,
+            enum:['W', 'M', 'K'],
+            default: "W"
         },
         SKU:{
             type: String
@@ -34,6 +36,22 @@ const productSchema = new mongoose.Schema(
             type:ObjectId,
             null:true
         },
+        image:String,
+        variation:[{
+            color: String,
+            images: [String],
+            sizes:[{
+                name:{
+                    type:String,
+                    lowerCase: true,
+                    trim: true
+                },
+                stock:{
+                    type:Number,
+                    min:0
+                }
+            }]
+        }],
         __v: { 
             type: Number, 
             select: false
@@ -46,11 +64,11 @@ const productSchema = new mongoose.Schema(
     }
 );
 
-productSchema.virtual("variation", {
-    ref:"Item",
-    foreignField: "productId",
-    localField: "_id",
-})
+// productSchema.virtual("variation", {
+//     ref:"Item",
+//     foreignField: "productId",
+//     localField: "_id",
+// })
 
 productSchema.pre(/^find/, function(next){   //if query is used called query middleware
   this.populate({

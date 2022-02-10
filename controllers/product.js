@@ -58,14 +58,22 @@ exports.addProduct = async(req, res) => {
 exports.list = async(req, res) => {
   try {
    var {limit = 2} = req.query
-   var query = new APIFeatures(Product, req.query).filter().sort().pagination();
-  // var query = await Product.find(req.query)
-   var products = await query.get().populate("variation");
-   const total = await (Product.countDocuments())/limit
+   const {color, price} = req.query
+    //  var query = new APIFeatures(Product, req.query).filter().sort().pagination()
+    // var query = await Product.aggregate([
+    //   {
+    //     $match:{price: 1550},
+    // }]).populate("variation")
+    // console.log(query)
+    // var products = await Product.find({price: req.query.price},{["variation.color"]: "Blue"}).select("price")
+    var products = await Product.find();
+    console.log(products)
+  //  var products = await query.get().populate("variation");
+  //  const total = await (Product.countDocuments())/limit
 
    res.status(200).json({
        status : "success",
-       pages : Math.ceil(total),
+      //  pages : Math.ceil(total),
        data : { 
            products
        }

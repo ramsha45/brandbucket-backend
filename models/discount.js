@@ -14,6 +14,7 @@ const discountSchema = new mongoose.Schema(
         type: Number,
         required: true
       },
+      
       __v: { 
           type: Number, 
           select: false

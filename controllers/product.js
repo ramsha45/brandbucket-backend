@@ -58,26 +58,25 @@ exports.addProduct = async(req, res) => {
 exports.list = async(req, res) => {
   try {
    var {limit = 2} = req.query
-   const {color, price} = req.query
-    //  var query = new APIFeatures(Product, req.query).filter().sort().pagination()
-    // var query = await Product.aggregate([
-    //   {
-    //     $match:{price: 1550},
-    // }]).populate("variation")
-    // console.log(query)
-    // var products = await Product.find({price: req.query.price},{["variation.color"]: "Blue"}).select("price")
-    var products = await Product.find();
-    console.log(products)
-  //  var products = await query.get().populate("variation");
-  //  const total = await (Product.countDocuments())/limit
-
-   res.status(200).json({
+    const{color, category, brand, size, gender, price, sort='createdAt'} = req.query
+    const modifiedQuery = {
+      ...brand && {["brandId"]: brand}, 
+      ...category && {["categoryId"]: category}, 
+      ...gender && {gender}, 
+      ...price && {price: { $lte: price }},
+      ...color && {["variation.color"]: color},
+      ...size && {["variation.sizes.name"]:size}
+    }
+    console.log(modifiedQuery, sort)
+    var products = await Product.find({...modifiedQuery}).sort(sort)
+    res.status(200).json({
        status : "success",
       //  pages : Math.ceil(total),
+      totalCount: products.length,
        data : { 
            products
        }
-   })
+    })
   } catch (error) {
     console.log(error)
     res.status(400).json({error :error.message})

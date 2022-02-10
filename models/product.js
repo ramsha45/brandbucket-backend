@@ -25,7 +25,8 @@ const productSchema = new mongoose.Schema(
             type: String
         },
         categoryId:{           
-            type:ObjectId
+            type:ObjectId,
+            ref:'Category'
         },
         brandId: {
             type: ObjectId,
@@ -75,6 +76,10 @@ productSchema.pre(/^find/, function(next){   //if query is used called query mid
       path: "brandId",
       select: "name"
   })
+  this.populate({
+    path: "categoryId",
+    select: "name"
+})
   next()
 })
 

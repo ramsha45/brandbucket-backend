@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const { truncateSync } = require("fs");
  
 const userSchema = new mongoose.Schema({
     userName: {
@@ -24,16 +25,36 @@ const userSchema = new mongoose.Schema({
     address:{
       type: String
     },
+    country: {
+      type: String,
+      trim: true,
+      lower:true
+    },
+    state: {
+      type: String,
+      trim: true,
+      lower:true
+    },
+    city: {
+      type: String,
+      trim: true,
+      lower:true
+    },
+    zipCode: {
+      type: String,
+      trim: true,
+      lower:true
+    },
     password:{
       type: String,
-      required: true,
+      // required: true,
       minLength: 8,
       select:false,
     },
 
     confirmPassword: {
       type: String,
-      required: true,
+      // required: true,
       validate: [
         function (val) {
             return val === this.password

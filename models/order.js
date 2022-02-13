@@ -7,9 +7,13 @@ const orderSchema = new mongoose.Schema(
         type:ObjectId,
         required: true,
       },
+      // OrderItems:{
+      //   type:[ObjectId],
+      //   required: true
+      // }
       OrderItems:{
-        type:[ObjectId],
-        required: true
+        type:Array,
+        required:true
       },
       subTotal:{           
         type: Number,

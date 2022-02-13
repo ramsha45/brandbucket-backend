@@ -63,11 +63,25 @@ exports.updateCartItem =  async(req,res) => {
       data : { 
         cart
       }
-  })
+    })
   } catch (error) {
     res.status(400).json({
       error :error.message
-  })
+    })
+  }
+}
+
+exports.deleteCartItem  = async(req,res) => {
+  try {
+    const {cartId} = req.params;
+    var cart = await CartItem.deleteOne(cartId)
+    res.status(200).json({
+      status : "success",
+    })
+  } catch (error) {
+    res.status(400).json({
+      error :error.message
+    })
   }
 }
 

@@ -67,7 +67,7 @@ exports.list = async(req, res) => {
       ...color && {["variation.color"]: color},
       ...size && {["variation.sizes.name"]:size}
     }
-    console.log(modifiedQuery, sort)
+    // console.log(modifiedQuery, sort)
     var products = await Product.find({...modifiedQuery}).sort(sort)
     res.status(200).json({
        status : "success",

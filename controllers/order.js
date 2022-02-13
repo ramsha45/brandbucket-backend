@@ -1,4 +1,5 @@
 const Order = require("../models/order");
+const User = require("../models/user");
 
 exports.getAllOrders = async(req,res) => {
   try {
@@ -35,7 +36,20 @@ exports.getOrderById = async(req,res) => {
 
 exports.addOrder = async(req,res) => {
   try {
-    const order = await Order.create(req.body)
+    const {userName, phone, email, country, state, city, address, zipCode, ...resOrderBody} = req.body;
+    const user = await User.create({
+      userName, 
+      phone, 
+      email, 
+      country, 
+      state, 
+      city, 
+      address, 
+      zipCode
+    })
+    resOrderBody.userId = user._id
+    console.log("resOrderBody", resOrderBody)
+    const order = await Order.create({...resOrderBody})
     res.status(200).json({
       status: "success",
       data:{

@@ -9,7 +9,8 @@ const cartItemSchema = new mongoose.Schema(
       },
       quantity:{
         type: Number,
-        required: true
+        required: true,
+        min: 1
       },
       __v: { 
           type: Number, 

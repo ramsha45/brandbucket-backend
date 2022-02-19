@@ -15,6 +15,7 @@ const subCategoryRoutes = require("./routes/subCategory");
 const itemRoutes = require("./routes/item");
 const cartItemRoutes = require("./routes/cartItem")
 const orderItemRoutes = require("./routes/order")
+const paymentRoutes = require("./routes/payment")
 
 // app
 const app = express();
@@ -48,7 +49,8 @@ mongoose
     useCreateIndex: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("DB Connected"));
+  .then(() => console.log("DB Connected"))
+  .catch(err => console.log("NOT CONNECTED", err));
 
 // middlewares
 // app.use(morgan("dev"));
@@ -57,8 +59,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(expressValidator());
 app.use(cors());
-
-
 
 //home
 
@@ -74,6 +74,7 @@ app.use("/api/subcategories", subCategoryRoutes)
 app.use("/api/items", itemRoutes)
 app.use("/api/carts", cartItemRoutes)
 app.use("/api/orders", orderItemRoutes)
+app.use("/api/payments", paymentRoutes)
 
 app.listen(8000, () => {
     console.log("server is running on port 8000")

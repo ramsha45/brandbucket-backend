@@ -16,6 +16,7 @@ const itemRoutes = require("./routes/item");
 const cartItemRoutes = require("./routes/cartItem")
 const orderItemRoutes = require("./routes/order")
 const paymentRoutes = require("./routes/payment")
+const port = process.env.PORT ||8000;
 
 // app
 const app = express();
@@ -76,6 +77,6 @@ app.use("/api/carts", cartItemRoutes)
 app.use("/api/orders", orderItemRoutes)
 app.use("/api/payments", paymentRoutes)
 
-app.listen(8000, () => {
+app.listen(port, () => {
     console.log("server is running on port 8000")
 });

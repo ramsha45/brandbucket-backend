@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const Item = require("../models/item");
+const Item = require("../models/Item");
 const multer = require("multer");
 const {v4: uuid} = require("uuid");
 const APIFeatures = require("../utility/common");

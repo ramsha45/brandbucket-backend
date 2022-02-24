@@ -1,4 +1,7 @@
 {
+  "script":{
+    "start": "node app.js"
+  },
   "dependencies": {
     "@sendgrid/mail": "^7.0.1",
     "async": "^3.2.0",

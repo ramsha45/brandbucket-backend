@@ -2,7 +2,7 @@ const Category = require("../models/category");
 
 exports.getAllCategories = async(req,res) => {
   try {
-    const categories = await Category.find()
+    const categories = await Category.find();
     res.status(200).json({
       status: "success",
       data:{
@@ -52,9 +52,7 @@ exports.addCategory = async(req,res) => {
 
 exports.updateCategory =  async(req,res) => {
   try {
-    console.log(req.body)
     var {categoryId} = req.params;
-    console.log(categoryId)
     var category = await Category.findByIdAndUpdate(categoryId, req.body, {
       new : true
     });
@@ -69,6 +67,21 @@ exports.updateCategory =  async(req,res) => {
     res.status(400).json({
       error :error.message
   })
+  }
+}
+
+exports.deleteCategory = async(req, res) => {
+  try {
+    const {categoryId} = req.params
+    await Category.deleteOne(categoryId)
+    res.status(200).json({
+      status:"success",
+    })
+  } catch (error) {
+    res.status(400).json({
+      status:"error",
+      error: error.message
+    })
   }
 }
 

@@ -54,7 +54,7 @@ exports.updateBrand =  async(req,res) => {
   try {
     console.log(req.body)
     var {brandId} = req.params;
-    var brand = await Brand.findOneAndUpdate(brandId,req.body,{
+    var brand = await Brand.findOneAndUpdate(brandId, req.body,{
       new : true
     });
 
@@ -68,6 +68,21 @@ exports.updateBrand =  async(req,res) => {
     res.status(400).json({
       error :error.message
   })
+  }
+}
+
+exports.deleteBrand = async(req, res) => {
+  try {
+    const {brandId} = req.params
+    await Brand.deleteOne(brandId)
+    res.status(200).json({
+      status:"success",
+    })
+  } catch (error) {
+    res.status(400).json({
+      status:"error",
+      error: error.message
+    })
   }
 }
 

@@ -2,6 +2,11 @@ const User = require("../models/user");
 
 exports.addUser = async(useProfile) => {
   try {
+      const uniqueUser = await User.findOne({email: useProfile.email})
+      if(uniqueUser){
+        console.log("uniqueUser", uniqueUser)
+        throw new Error("This User already exist")
+      }
       var user = await User.create(useProfile);
       return user
   } catch (error) {

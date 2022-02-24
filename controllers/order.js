@@ -79,20 +79,24 @@ exports.getOrderById = async(req,res) => {
 }
 
 exports.addOrder = async(req,res) => {
+  // console.log("Oser from backend", req.body)
   try {
-    const {userName, phone, email, country, state, city, address, zipCode, ...resOrderBody} = req.body;
-    const user = await User.create({
-      userName, 
-      phone, 
-      email, 
-      country, 
-      state, 
-      city, 
-      address, 
-      zipCode,
-      role:"buyer"
-    })
-    resOrderBody.userId = user._id
+    const {userId, userName, phone, email, country, state, city, address, zipCode, ...resOrderBody} = req.body;
+    if(!userId){
+      const user = await User.create({
+        userName, 
+        phone, 
+        email, 
+        country, 
+        state, 
+        city, 
+        address, 
+        zipCode,
+        role:"buyer",
+        customerType: "walkin"
+      })
+      resOrderBody.userId = user._id
+    } else resOrderBody.userId = userId
 
     console.log("resOrderBody", resOrderBody)
     const order = await Order.create({...resOrderBody})

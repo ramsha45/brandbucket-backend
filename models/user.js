@@ -16,24 +16,27 @@ const userSchema = new mongoose.Schema({
     email:{
         type: String,
         required: true,
-        // unique: true,
         lower: true,
     },
     phone:{
-      type: String
+      type: String,
+      required: true
     },
     address:{
-      type: String
+      type: String,
+      required: true
     },
     country: {
       type: String,
       trim: true,
-      lower:true
+      lower:true,
+      required: true
     },
     state: {
       type: String,
       trim: true,
-      lower:true
+      lower:true,
+      required: true
     },
     city: {
       type: String,
@@ -44,6 +47,12 @@ const userSchema = new mongoose.Schema({
       type: String,
       trim: true,
       lower:true
+    },
+
+    customerType: {
+      type: String,
+      enum: ["regular", "walkin", "admin"],
+      required: true
     },
     password:{
       type: String,
